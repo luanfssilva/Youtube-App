@@ -1,5 +1,6 @@
 package com.example.luan.youtubeapp.activitys;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,12 +10,15 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 
 import com.example.luan.youtubeapp.R;
 import com.example.luan.youtubeapp.adapter.AdapterVideo;
 import com.example.luan.youtubeapp.api.YoutubeService;
 import com.example.luan.youtubeapp.helper.RetrofitConfig;
 import com.example.luan.youtubeapp.helper.YoutubeConfig;
+import com.example.luan.youtubeapp.listener.RecyclerItemClickListener;
 import com.example.luan.youtubeapp.model.Resultado;
 import com.example.luan.youtubeapp.model.Item;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
@@ -118,6 +122,33 @@ public class MainActivity extends AppCompatActivity{
         recyclerVideos.setHasFixedSize(true);
         recyclerVideos.setLayoutManager(new LinearLayoutManager(this));
         recyclerVideos.setAdapter(adapterVideo);
+
+        //Configura evento de clique
+        recyclerVideos.addOnItemTouchListener(
+                new RecyclerItemClickListener(this, recyclerVideos, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Item item = items.get(position);
+                        String idVideo = item.id.videoId;
+
+                        Intent i = new Intent(MainActivity.this, PlayerActivity.class);
+                        i.putExtra("idVideo", idVideo);
+                        startActivity(i);
+
+
+                    }
+
+                    @Override
+                    public void onLongItemClick(View view, int position) {
+
+                    }
+
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    }
+                })
+        );
     }
 
 
