@@ -1,6 +1,5 @@
 package com.example.luan.youtubeapp.activitys;
 
-import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,7 +16,7 @@ import com.example.luan.youtubeapp.api.YoutubeService;
 import com.example.luan.youtubeapp.helper.RetrofitConfig;
 import com.example.luan.youtubeapp.helper.YoutubeConfig;
 import com.example.luan.youtubeapp.model.Resultado;
-import com.example.luan.youtubeapp.model.Video;
+import com.example.luan.youtubeapp.model.Item;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
@@ -31,11 +30,12 @@ import retrofit2.Retrofit;
 public class MainActivity extends AppCompatActivity{
 
     private RecyclerView recyclerVideos;
-    private List<Video> videos = new ArrayList<>();
+    private List<Item> items = new ArrayList<>();
+    private Resultado resultado;
     private AdapterVideo adapterVideo;
     private MaterialSearchView searchView;
 
-    private String chave_youtube_api;
+    private static String CHAVE_YOUTUBE_API;
 
     //Retrofit
     private Retrofit retrofit;
@@ -51,19 +51,13 @@ public class MainActivity extends AppCompatActivity{
         toolbar.setTitle("Youtube App");
         setSupportActionBar(toolbar);
 
+        recyclerVideos = findViewById(R.id.recyclerVideos);
         searchView = findViewById(R.id.searchView);
 
-        chave_youtube_api = getString(R.string.google_youtube_key);
+        CHAVE_YOUTUBE_API = getString(R.string.google_youtube_key);
         retrofit = RetrofitConfig.getRetrofit();
 
-        //Configura RecyclerView
-        recyclerVideos = findViewById(R.id.recyclerVideos);
-        //Log.i("Chave", "onCreate: " + CHAVE_YOUTUBE_API);
         recuperarVideos();
-        adapterVideo = new AdapterVideo(videos,this);
-        recyclerVideos.setHasFixedSize(true);
-        recyclerVideos.setLayoutManager(new LinearLayoutManager(this));
-        recyclerVideos.setAdapter(adapterVideo);
 
         //Configura métodos para SearchView
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
@@ -90,18 +84,24 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
-
     }
 
     private void recuperarVideos(){
 
         YoutubeService youtubeService = retrofit.create( YoutubeService.class );
         youtubeService.recuperarVideos(
-                "snippet","date","20", chave_youtube_api, YoutubeConfig.CANAL_ID
+                "snippet","date","20", CHAVE_YOUTUBE_API, YoutubeConfig.CANAL_ID
         ).enqueue(new Callback<Resultado>() {
             @Override
             public void onResponse(Call<Resultado> call, Response<Resultado> response) {
                 Log.d("resultado","resultado: " + response.toString());
+
+                if(response.isSuccessful()){
+                    resultado = response.body();
+                    items = resultado.items;
+                    configuraRecyclerView();
+                }
+
             }
 
             @Override
@@ -110,7 +110,14 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
+    }
 
+    public void configuraRecyclerView(){
+
+        adapterVideo = new AdapterVideo(items,this);
+        recyclerVideos.setHasFixedSize(true);
+        recyclerVideos.setLayoutManager(new LinearLayoutManager(this));
+        recyclerVideos.setAdapter(adapterVideo);
     }
 
 

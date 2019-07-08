@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.luan.youtubeapp.R;
-import com.example.luan.youtubeapp.model.Video;
+import com.example.luan.youtubeapp.model.Item;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +22,11 @@ import java.util.List;
 
 public class AdapterVideo extends RecyclerView.Adapter<AdapterVideo.MyViewHolder> {
 
-    private List<Video> videos = new ArrayList<>();
+    private List<Item> items = new ArrayList<>();
     private Context context;
 
-    public AdapterVideo(List<Video> videos, Context context) {
-        this.videos = videos;
+    public AdapterVideo(List<Item> items, Context context) {
+        this.items = items;
         this.context = context;
     }
 
@@ -39,15 +39,15 @@ public class AdapterVideo extends RecyclerView.Adapter<AdapterVideo.MyViewHolder
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
 
-        Video video = videos.get(i);
-        myViewHolder.titulo.setText(video.getTitulo());
+        Item item = items.get(i);
+        myViewHolder.titulo.setText(item.snippet.title);
 
 
     }
 
     @Override
     public int getItemCount() {
-        return videos.size();
+        return items.size();
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder{
