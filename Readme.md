@@ -5,13 +5,13 @@ Desenvolvimento do aplicativo parecido com Youtube, utilizando conceitos estudad
 
 Conceitos estudados:
 
-* Consumir serviços web utilizando a biblioteca Retrofit
+* Consumir serviÃ§os web utilizando a biblioteca Retrofit
 * Consumir a Youtube API
 * Utilizar a biblioteca Picasso para carregamento de imagens
-* Implementação da funcionalidade de pesquisando utilizando a biblioteca SearchView
+* ImplementaÃ§Ã£o da funcionalidade de pesquisando utilizando a biblioteca SearchView
 
 
-### Links Úteis
+### Links Ãšteis
 
 * [Curso Android - Udemy](https://www.udemy.com/curso-de-desenvolvimento-android-oreo/)
 
@@ -19,8 +19,8 @@ Conceitos estudados:
 
 * [Youtube API](https://developers.google.com/youtube/android/player/)
 
-* [Material SearchView] (https://github.com/MiguelCatalan/MaterialSearchView)
+* [Material SearchView](https://github.com/MiguelCatalan/MaterialSearchView)
 
-* [Picasso] (http://square.github.io/picasso/)
+* [Picasso](http://square.github.io/picasso/)
 
 
